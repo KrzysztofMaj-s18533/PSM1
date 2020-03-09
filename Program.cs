@@ -5,15 +5,24 @@ namespace PSM_1_sinus
 
     class sinEstimator
     {
-        private int sinDegree;
+        private bool isRad;
+        private double sinDegree;
         private double sinRadians;
         private double sinFinalNum;
         private double recentEstim = -2;
         private bool changeSign = false;
-        public sinEstimator(int i)
+        public sinEstimator(double i, bool isRad)
         {
-            this.sinDegree = i;
-            this.sinRadians = (sinDegree * Math.PI) / 180;
+            if (isRad)
+            {
+                this.sinRadians = i;
+                this.isRad = true;
+            }
+            else{
+                this.sinDegree = i;
+                this.sinRadians = (sinDegree * Math.PI) / 180;
+                this.isRad = false;
+            }
             this.sinFinalNum = sinRadians % (Math.PI * 2);
 
             if(Math.PI/2 < sinFinalNum && sinFinalNum <= Math.PI)
@@ -30,9 +39,9 @@ namespace PSM_1_sinus
             }
         }
 
-        static int factorial(int fac)
+        static double factorial(int fac)
         {
-            int result = 1;
+            double result = 1;
             while (fac > 1) result *= fac--;
             return result;
         }
@@ -72,8 +81,26 @@ namespace PSM_1_sinus
             {
                 this.estimate(5);
             }
+            double libSinEstim = Math.Sin(sinRadians);
 
-            Console.WriteLine("Sin(" + sinDegree + ") ~= " + recentEstim);
+            double diff;
+
+            if (libSinEstim > recentEstim)
+            {
+                diff = libSinEstim - recentEstim;
+            }
+            else
+            {
+                diff = recentEstim - libSinEstim;
+            }
+
+            if (isRad)
+            {
+                Console.WriteLine("Sin(" + sinRadians + ") ~= " + recentEstim + " Roznica miedzy funkcja z biblioteki matematycznej wynosi: " + diff);
+            }
+            else {
+                Console.WriteLine("Sin(" + sinDegree + " stopni) ~= " + recentEstim + " Roznica miedzy funkcja z biblioteki matematycznej wynosi: " + diff);
+            }
         }
     }
 
@@ -82,9 +109,51 @@ namespace PSM_1_sinus
         public static void Main(string[] args)
         {
             Console.WriteLine("======================");
-            var sine = new sinEstimator(450);
-            sine.estimate(15);
-            sine.showEstim();
+            var sineDeg = new sinEstimator(30, false);
+            sineDeg.estimate(1);
+            sineDeg.showEstim();
+            sineDeg.estimate(2);
+            sineDeg.showEstim();
+            sineDeg.estimate(3);
+            sineDeg.showEstim();
+            sineDeg.estimate(4);
+            sineDeg.showEstim();
+            sineDeg.estimate(5);
+            sineDeg.showEstim();
+            sineDeg.estimate(6);
+            sineDeg.showEstim();
+            sineDeg.estimate(7);
+            sineDeg.showEstim();
+            sineDeg.estimate(8);
+            sineDeg.showEstim();
+            sineDeg.estimate(9);
+            sineDeg.showEstim();
+            sineDeg.estimate(10);
+            sineDeg.showEstim();
+
+            Console.WriteLine("");
+
+            var sineRad = new sinEstimator(Math.PI/2, true);
+            sineRad.estimate(1);
+            sineRad.showEstim();
+            sineRad.estimate(2);
+            sineRad.showEstim();
+            sineRad.estimate(3);
+            sineRad.showEstim();
+            sineRad.estimate(4);
+            sineRad.showEstim();
+            sineRad.estimate(5);
+            sineRad.showEstim();
+            sineRad.estimate(6);
+            sineRad.showEstim();
+            sineRad.estimate(7);
+            sineRad.showEstim();
+            sineRad.estimate(8);
+            sineRad.showEstim();
+            sineRad.estimate(9);
+            sineRad.showEstim();
+            sineRad.estimate(10);
+            sineRad.showEstim();
             Console.WriteLine("======================");
         }
     }
